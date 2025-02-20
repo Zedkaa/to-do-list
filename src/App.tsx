@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./App.css";
 import AddTodo from "./components/AddTodo";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 // import { Draggable } from '@hello-pangea/dnd'
 
 function App() {
@@ -60,36 +65,125 @@ function App() {
     setDonetack([...donetack, ...done]);
   };
 
-  const handleOnDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const newTodo = Array.from(todos);
-    const newDonetack = Array.from(donetack);
-    const newNotStarted = Array.from(notStarted);
-    const newInProgress = Array.from(inProgress);
+  const handleOnDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    if (!destination) return;
 
-    const [draggedTodoItem] = newDonetack.splice(result.source.index, 1);
-    const [draggedDonetackItem] = newTodo.splice(result.source.index, 1);
-    const [draggedNotStartedItem] = newNotStarted.splice(
-      result.source.index,
-      1
-    );
-    const [draggedInProgressItem] = newInProgress.splice(
-      result.source.index,
-      1
-    );
+    if (source.droppableId === destination.droppableId) {
+      if (source.droppableId === "allListBox") {
+        let tempTodos: string[] = [...todos];
 
-    newTodo.splice(result.destination.index, 0, draggedTodoItem);
-    newDonetack.splice(result.destination.index, 0, draggedDonetackItem);
-    newNotStarted.splice(result.destination.index, 0, draggedNotStartedItem);
-    newInProgress.splice(result.destination.index, 0, draggedInProgressItem);
+        const [removed] = tempTodos.splice(source.index, 1);
+        tempTodos.splice(destination.index, 0, removed);
+        setTodos(tempTodos);
+      } else if (source.droppableId === "not-started-listBox") {
+        let tempNotStarted: string[] = [...notStarted];
 
-    setTodos(newTodo);
-    setDonetack(newDonetack);
-    setNotstarted(newNotStarted);
-    setInprogress(newInProgress);
+        const [removed] = tempNotStarted.splice(source.index, 1);
+        tempNotStarted.splice(destination.index, 0, removed);
+        setNotstarted(tempNotStarted);
+      } else if (source.droppableId === "in-progress-listBox") {
+        let tempInProgress: string[] = [...inProgress];
+
+        const [removed] = tempInProgress.splice(source.index, 1);
+        tempInProgress.splice(destination.index, 0, removed);
+        setInprogress(tempInProgress);
+      } else if (source.droppableId === "doneTasck-listBox") {
+        let tempDonetack: string[] = [...donetack];
+
+        const [removed] = tempDonetack.splice(source.index, 1);
+        tempDonetack.splice(destination.index, 0, removed);
+        setDonetack(tempDonetack);
+      }
+    } else if (source.droppableId !== destination.droppableId) {
+      let tempTodos1: string[] = [...todos];
+      let tempNotStarted2: string[] = [...notStarted];
+      let tempInProgress3: string[] = [...inProgress];
+      let tempDonetack4: string[] = [...donetack];
+
+      if (source.droppableId === "allListBox") {
+        const [removed] = tempTodos1.splice(source.index, 1);
+        setTodos([...tempTodos1]);
+        switch (destination.droppableId) {
+          case "not-started-listBox":
+            tempNotStarted2.splice(destination.index, 0, removed);
+            setNotstarted([...tempNotStarted2]);
+            break;
+          case "in-progress-listBox":
+            tempInProgress3.splice(destination.index, 0, removed);
+            setInprogress([...tempInProgress3]);
+            break;
+          case "doneTasck-listBox":
+            tempDonetack4.splice(destination.index, 0, removed);
+            setDonetack([...tempDonetack4]);
+            break;
+          default:
+        }
+      }
+
+      if (source.droppableId === "not-started-listBox") {
+        const [removed] = tempNotStarted2.splice(source.index, 1);
+        setNotstarted([...tempNotStarted2]);
+        switch (destination.droppableId) {
+          case "allListBox":
+            tempTodos1.splice(destination.index, 0, removed);
+            setTodos([...tempTodos1]);
+            break;
+          case "in-progress-listBox":
+            tempInProgress3.splice(destination.index, 0, removed);
+            setInprogress([...tempInProgress3]);
+            break;
+          case "doneTasck-listBox":
+            tempDonetack4.splice(destination.index, 0, removed);
+            setDonetack([...tempDonetack4]);
+            break;
+          default:
+        }
+      }
+
+      if (source.droppableId === "in-progress-listBox") {
+        const [removed] = tempInProgress3.splice(source.index, 1);
+        setInprogress([...tempInProgress3]);
+        switch (destination.droppableId) {
+          case "allListBox":
+            tempTodos1.splice(destination.index, 0, removed);
+            setTodos([...tempTodos1]);
+            break;
+          case "not-started-listBox":
+            tempNotStarted2.splice(destination.index, 0, removed);
+            setNotstarted([...tempNotStarted2]);
+            break;
+          case "doneTasck-listBox":
+            tempDonetack4.splice(destination.index, 0, removed);
+            setDonetack([...tempDonetack4]);
+            break;
+          default:
+        }
+      }
+
+      if (source.droppableId === "doneTasck-listBox") {
+        const [removed] = tempDonetack4.splice(source.index, 1);
+        setDonetack([...tempDonetack4]);
+        switch (destination.droppableId) {
+          case "not-started-listBox":
+            tempNotStarted2.splice(destination.index, 0, removed);
+            setNotstarted([...tempNotStarted2]);
+            break;
+          case "in-progress-listBox":
+            tempInProgress3.splice(destination.index, 0, removed);
+            setInprogress([...tempInProgress3]);
+            break;
+          case "allListBox":
+            tempTodos1.splice(destination.index, 0, removed);
+            setTodos([...tempTodos1]);
+            break;
+          default:
+        }
+      }
+    }
   };
 
-  console.log(donetack);
+  // console.log(donetack);
 
   return (
     <>
@@ -228,7 +322,7 @@ function App() {
               )}
             </Droppable>
             <Droppable
-              droppableId="in-progress-listBox"
+              droppableId="doneTasck-listBox"
               isDropDisabled={false}
               isCombineEnabled={false}
               ignoreContainerClipping={false}
