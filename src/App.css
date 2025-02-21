@@ -37,6 +37,7 @@
   border: #010087 2px solid;
   background-color: #ebedff9e;
   border-radius: 15px;
+  min-height: 250px;
 }
 
 .main-div-listsBox-title {
@@ -115,7 +116,7 @@
   border: 3px solid #010087;
   border-radius: 15px;
   padding: 30px 10px 60px;
-  box-shadow: #010087 0px 0px 50px 10px;
+  box-shadow: #010087b5 0px 0px 450px 450px;
   position: absolute;
   left: 34%;
   top: 30%;
@@ -142,12 +143,14 @@
   background-color: #9496b1ab;
   border: 2px solid #010087;
   border-radius: 5px;
+  margin-bottom: 15px;
 }
 
 .addtodo-item-add-btn {
   width: 25%;
   background-color: #010087;
   color: #f8f8f9;
+  margin-right: 45px;
 }
 
 .addtodo-item-close-btn {
@@ -181,7 +184,7 @@
     border: 3px solid #010087;
     border-radius: 15px;
     padding: 30px 10px 60px;
-    box-shadow: #010087 0px 0px 95px 150px;
+    box-shadow: #010087c9 0px 0px 450px 450px;
     position: fixed;
     left: 2%;
     top: 30%;

@@ -11,26 +11,10 @@ import {
 
 function App() {
   const [showAddtodo, setShowAddtodo] = useState<boolean>(false);
-  const [todos, setTodos] = useState<string[]>([
-    "Alltasck01",
-    "Alltasck02",
-    "Alltasck03",
-  ]);
-  const [donetack, setDonetack] = useState<string[]>([
-    "donetack01",
-    "donetack02",
-    "donetack03",
-  ]);
-  const [notStarted, setNotstarted] = useState<string[]>([
-    "notStarted01",
-    "notStarted02",
-    "notStarted03",
-  ]);
-  const [inProgress, setInprogress] = useState<string[]>([
-    "inProgress01",
-    "inProgress02",
-    "inProgress03",
-  ]);
+  const [todos, setTodos] = useState<string[]>([]);
+  const [donetack, setDonetack] = useState<string[]>([]);
+  const [notStarted, setNotstarted] = useState<string[]>([]);
+  const [inProgress, setInprogress] = useState<string[]>([]);
 
   const handleClick = () => {
     setShowAddtodo(!showAddtodo);
@@ -71,35 +55,35 @@ function App() {
 
     if (source.droppableId === destination.droppableId) {
       if (source.droppableId === "allListBox") {
-        let tempTodos: string[] = [...todos];
+        const tempTodos: string[] = [...todos];
 
         const [removed] = tempTodos.splice(source.index, 1);
         tempTodos.splice(destination.index, 0, removed);
         setTodos(tempTodos);
       } else if (source.droppableId === "not-started-listBox") {
-        let tempNotStarted: string[] = [...notStarted];
+        const tempNotStarted: string[] = [...notStarted];
 
         const [removed] = tempNotStarted.splice(source.index, 1);
         tempNotStarted.splice(destination.index, 0, removed);
         setNotstarted(tempNotStarted);
       } else if (source.droppableId === "in-progress-listBox") {
-        let tempInProgress: string[] = [...inProgress];
+        const tempInProgress: string[] = [...inProgress];
 
         const [removed] = tempInProgress.splice(source.index, 1);
         tempInProgress.splice(destination.index, 0, removed);
         setInprogress(tempInProgress);
       } else if (source.droppableId === "doneTasck-listBox") {
-        let tempDonetack: string[] = [...donetack];
+        const tempDonetack: string[] = [...donetack];
 
         const [removed] = tempDonetack.splice(source.index, 1);
         tempDonetack.splice(destination.index, 0, removed);
         setDonetack(tempDonetack);
       }
     } else if (source.droppableId !== destination.droppableId) {
-      let tempTodos1: string[] = [...todos];
-      let tempNotStarted2: string[] = [...notStarted];
-      let tempInProgress3: string[] = [...inProgress];
-      let tempDonetack4: string[] = [...donetack];
+      const tempTodos1: string[] = [...todos];
+      const tempNotStarted2: string[] = [...notStarted];
+      const tempInProgress3: string[] = [...inProgress];
+      const tempDonetack4: string[] = [...donetack];
 
       if (source.droppableId === "allListBox") {
         const [removed] = tempTodos1.splice(source.index, 1);
@@ -190,7 +174,7 @@ function App() {
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className="main-div ">
           <div className="main-div-title">
-            <h1>To-Do List</h1>
+            <h1>To Do List</h1>
           </div>
           <div className="main-div-lists">
             <Droppable
@@ -359,7 +343,7 @@ function App() {
           </div>
           <div className="main-div-btn">
             <button className="main-div-btn-item" onClick={handleClick}>
-              Add TO DO
+              Add New Task
             </button>
           </div>
         </div>
