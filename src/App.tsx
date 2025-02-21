@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import AddTodo from "./components/AddTodo";
 import {
@@ -15,6 +15,29 @@ function App() {
   const [donetack, setDonetack] = useState<string[]>([]);
   const [notStarted, setNotstarted] = useState<string[]>([]);
   const [inProgress, setInprogress] = useState<string[]>([]);
+
+  useEffect(() => {
+    setTodos(JSON.parse(localStorage.getItem("todos") || "[]"));
+    setDonetack(JSON.parse(localStorage.getItem("donetack") || "[]"));
+    setNotstarted(JSON.parse(localStorage.getItem("notStarted") || "[]"));
+    setInprogress(JSON.parse(localStorage.getItem("inProgress") || "[]"));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  useEffect(() => {
+    localStorage.setItem("donetack", JSON.stringify(donetack));
+  }, [donetack]);
+
+  useEffect(() => {
+    localStorage.setItem("notStarted", JSON.stringify(notStarted));
+  }, [notStarted]);
+
+  useEffect(() => {
+    localStorage.setItem("inProgress", JSON.stringify(inProgress));
+  }, [inProgress]);
 
   const handleClick = () => {
     setShowAddtodo(!showAddtodo);
